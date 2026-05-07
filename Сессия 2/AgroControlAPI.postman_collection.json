@@ -1,0 +1,542 @@
+{
+  "info": {
+    "name": "AgroControl API",
+    "description": "API для автоматизации производства средств защиты растений",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5134",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Auth/register",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new.user\",\n  \"password\": \"123456\",\n  \"fullName\": \"Новый Пользователь\",\n  \"role\": \"operator\",\n  \"department\": \"Цех №1\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"operator.zavodov\",\n  \"password\": \"hash123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get all products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Products"
+          }
+        },
+        {
+          "name": "Get product by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Products/1"
+          }
+        },
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Products",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PR-099\",\n  \"name\": \"Тестовый Продукт\",\n  \"type\": \"Гербицид\",\n  \"form\": \"Жидкость\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Products/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PR-001-UPD\",\n  \"name\": \"Гербицид А (Обновлён)\",\n  \"type\": \"Гербицид\",\n  \"form\": \"Концентрат\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive product",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Products/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reference",
+      "item": [
+        {
+          "name": "Get products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/products"
+          }
+        },
+        {
+          "name": "Get raw materials",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/raw-materials"
+          }
+        },
+        {
+          "name": "Get equipment",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/equipment"
+          }
+        },
+        {
+          "name": "Get users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/users"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recipes",
+      "item": [
+        {
+          "name": "Get all recipes",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Recipes"
+          }
+        },
+        {
+          "name": "Get recipe by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Recipes/1"
+          }
+        },
+        {
+          "name": "Create recipe",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Recipes",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"version\": \"2.0\",\n  \"components\": [\n    {\n      \"rawMaterialId\": 1,\n      \"percentage\": 45,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 1\n    },\n    {\n      \"rawMaterialId\": 2,\n      \"percentage\": 55,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 2\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Update recipe",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Recipes/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"version\": \"2.1\",\n  \"components\": [\n    {\n      \"rawMaterialId\": 1,\n      \"percentage\": 50,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 1\n    },\n    {\n      \"rawMaterialId\": 2,\n      \"percentage\": 50,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 2\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive recipe",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Recipes/1"
+          }
+        },
+        {
+          "name": "Approve recipe",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Recipes/1/approve"
+          }
+        }
+      ]
+    },
+    {
+      "name": "TechCards",
+      "item": [
+        {
+          "name": "Get all tech cards",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/TechCards"
+          }
+        },
+        {
+          "name": "Get tech card by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/TechCards/1"
+          }
+        },
+        {
+          "name": "Create tech card",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/TechCards",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"recipeId\": 1,\n  \"version\": \"1.0\",\n  \"steps\": [\n    {\n      \"stepOrder\": 1,\n      \"name\": \"Смешивание\",\n      \"stepType\": \"mixing\",\n      \"plannedMin\": 40,\n      \"plannedMax\": 50,\n      \"unit\": \"°C\",\n      \"isMandatory\": true,\n      \"durationMin\": 30\n    },\n    {\n      \"stepOrder\": 2,\n      \"name\": \"Экструзия\",\n      \"stepType\": \"extrusion\",\n      \"plannedMin\": 75,\n      \"plannedMax\": 85,\n      \"unit\": \"°C\",\n      \"isMandatory\": true,\n      \"durationMin\": 45\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Update tech card",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/TechCards/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"recipeId\": 1,\n  \"version\": \"1.1\",\n  \"steps\": [\n    {\n      \"stepOrder\": 1,\n      \"name\": \"Смешивание\",\n      \"stepType\": \"mixing\",\n      \"plannedMin\": 45,\n      \"plannedMax\": 55,\n      \"unit\": \"°C\",\n      \"isMandatory\": true,\n      \"durationMin\": 35\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive tech card",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/TechCards/1"
+          }
+        },
+        {
+          "name": "Approve tech card",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/TechCards/1/approve"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Get all orders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Orders"
+          }
+        },
+        {
+          "name": "Get order by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Orders/1"
+          }
+        },
+        {
+          "name": "Create order",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Orders",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderNumber\": \"PO-099\",\n  \"recipeId\": 1,\n  \"plannedQuantityKg\": 1000,\n  \"plannedStartDate\": \"2025-12-01T00:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update order",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Orders/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderNumber\": \"PO-001-UPD\",\n  \"recipeId\": 1,\n  \"plannedQuantityKg\": 1500,\n  \"plannedStartDate\": \"2025-12-15T00:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel order",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Orders/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batches",
+      "item": [
+        {
+          "name": "Get all batches",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Batches"
+          }
+        },
+        {
+          "name": "Get batch by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Batches/1"
+          }
+        },
+        {
+          "name": "Create batch",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Batches",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchNumber\": \"B-TEST-001\",\n  \"orderId\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "item": [
+        {
+          "name": "Start step",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Production/start-step",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "1"
+            }
+          }
+        },
+        {
+          "name": "Complete step",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Production/complete-step",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchStepId\": 1,\n  \"actualValue\": 82.5,\n  \"actualDurationMin\": 32,\n  \"operatorComment\": \"Шаг выполнен\",\n  \"operatorId\": 3\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Laboratory",
+      "item": [
+        {
+          "name": "Get raw material pending",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/raw-material-pending"
+          }
+        },
+        {
+          "name": "Get product pending",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/product-pending"
+          }
+        },
+        {
+          "name": "Create test",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/create-test",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectType\": \"product\",\n  \"objectId\": 1,\n  \"testType\": \"Контроль качества\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Submit test result",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/submit-result",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"testId\": 1,\n  \"decision\": \"approved\",\n  \"decisionReason\": null,\n  \"testedBy\": 4\n}"
+            }
+          }
+        },
+        {
+          "name": "Block batch",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/block-batch/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\"Несоответствие нормативам\""
+            }
+          }
+        },
+        {
+          "name": "Approve batch",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/approve-batch/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Deviations",
+      "item": [
+        {
+          "name": "Get all deviations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Deviations"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Get all events",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Events"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get user notifications",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Notifications/3"
+          }
+        },
+        {
+          "name": "Mark notification as read",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Notifications/1/read"
+          }
+        }
+      ]
+    }
+  ]
+}
