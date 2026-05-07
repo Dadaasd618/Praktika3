@@ -1,0 +1,1439 @@
+{
+  "info": {
+    "name": "AgroControl API",
+    "description": "API для автоматизации производства средств защиты растений",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5134",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Auth/register",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new.user\",\n  \"password\": \"123456\",\n  \"fullName\": \"Новый Пользователь\",\n  \"role\": \"operator\",\n  \"department\": \"Цех №1\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"operator.zavodov\",\n  \"password\": \"hash123\"\n}"
+            },
+            "script": {
+              "type": "text/javascript",
+              "exec": "if(responseCode.code === 200) {\n    var jsonData = JSON.parse(responseBody);\n    postman.setEnvironmentVariable(\"token\", jsonData.token);\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get all products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Products",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get product by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Products/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Products",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PR-099\",\n  \"name\": \"Тестовый Продукт\",\n  \"type\": \"Гербицид\",\n  \"form\": \"Жидкость\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Products/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PR-001-UPD\",\n  \"name\": \"Гербицид А (Обновлён)\",\n  \"type\": \"Гербицид\",\n  \"form\": \"Концентрат\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive product",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Products/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reference",
+      "item": [
+        {
+          "name": "Get products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/products",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get raw materials",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/raw-materials",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get equipment",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/equipment",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Reference/users",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get all users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Users",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get user by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Users/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create user",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Users",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new.operator\",\n  \"password\": \"123456\",\n  \"fullName\": \"Новый Оператор\",\n  \"role\": \"operator\",\n  \"email\": \"operator@mail.ru\",\n  \"phone\": \"+7-999-123-45-67\",\n  \"department\": \"Цех №2\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Users/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Иванов Иван Петрович (Обновлён)\",\n  \"role\": \"technologist\",\n  \"email\": \"ivan.updated@mail.ru\",\n  \"phone\": \"+7-495-123-45-99\",\n  \"department\": \"Технологический отдел\",\n  \"password\": \"newpassword123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Deactivate user",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Users/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Activate user",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Users/1/activate",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "Get all roles",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Roles",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get role by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Roles/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create role",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Roles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"shift_supervisor\",\n  \"description\": \"Мастер смены\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update role",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Roles/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"technologist_updated\",\n  \"description\": \"Технолог (обновлено)\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete role",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Roles/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "RawMaterials",
+      "item": [
+        {
+          "name": "Get all raw materials",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/RawMaterials",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get raw material by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/RawMaterials/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create raw material",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/RawMaterials",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"RM-099\",\n  \"name\": \"Тестовое сырьё\",\n  \"category\": \"Растворитель\",\n  \"unit\": \"кг\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update raw material",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/RawMaterials/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"RM-001-UPD\",\n  \"name\": \"Растворитель (Обновлён)\",\n  \"category\": \"Растворитель\",\n  \"unit\": \"л\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive raw material",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/RawMaterials/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Equipment",
+      "item": [
+        {
+          "name": "Get all equipment",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Equipment",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get equipment by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Equipment/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create equipment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Equipment",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"EQ-099\",\n  \"name\": \"Тестовое оборудование\",\n  \"type\": \"Смеситель\",\n  \"location\": \"Цех №3\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update equipment",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Equipment/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"EQ-001-UPD\",\n  \"name\": \"Экструдер (Обновлён)\",\n  \"type\": \"Экструдер\",\n  \"location\": \"Цех №1\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete equipment",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Equipment/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recipes",
+      "item": [
+        {
+          "name": "Get all recipes",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Recipes",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get recipe by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Recipes/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create recipe",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Recipes",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"version\": \"2.0\",\n  \"components\": [\n    {\n      \"rawMaterialId\": 1,\n      \"percentage\": 45,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 1\n    },\n    {\n      \"rawMaterialId\": 2,\n      \"percentage\": 55,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 2\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Update recipe",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Recipes/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"version\": \"2.1\",\n  \"components\": [\n    {\n      \"rawMaterialId\": 1,\n      \"percentage\": 50,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 1\n    },\n    {\n      \"rawMaterialId\": 2,\n      \"percentage\": 50,\n      \"tolerance\": 0.5,\n      \"loadOrder\": 2\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive recipe",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Recipes/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Approve recipe",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Recipes/1/approve",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TechCards",
+      "item": [
+        {
+          "name": "Get all tech cards",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/TechCards",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get tech card by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/TechCards/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create tech card",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/TechCards",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"recipeId\": 1,\n  \"version\": \"1.0\",\n  \"steps\": [\n    {\n      \"stepOrder\": 1,\n      \"name\": \"Смешивание\",\n      \"stepType\": \"mixing\",\n      \"plannedMin\": 40,\n      \"plannedMax\": 50,\n      \"unit\": \"°C\",\n      \"isMandatory\": true,\n      \"durationMin\": 30\n    },\n    {\n      \"stepOrder\": 2,\n      \"name\": \"Экструзия\",\n      \"stepType\": \"extrusion\",\n      \"plannedMin\": 75,\n      \"plannedMax\": 85,\n      \"unit\": \"°C\",\n      \"isMandatory\": true,\n      \"durationMin\": 45\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Update tech card",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/TechCards/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"recipeId\": 1,\n  \"version\": \"1.1\",\n  \"steps\": [\n    {\n      \"stepOrder\": 1,\n      \"name\": \"Смешивание\",\n      \"stepType\": \"mixing\",\n      \"plannedMin\": 45,\n      \"plannedMax\": 55,\n      \"unit\": \"°C\",\n      \"isMandatory\": true,\n      \"durationMin\": 35\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Archive tech card",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/TechCards/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Approve tech card",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/TechCards/1/approve",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Get all orders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Orders",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get order by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Orders/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create order",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Orders",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderNumber\": \"PO-099\",\n  \"recipeId\": 1,\n  \"plannedQuantityKg\": 1000,\n  \"plannedStartDate\": \"2025-12-01T00:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update order",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Orders/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderNumber\": \"PO-001-UPD\",\n  \"recipeId\": 1,\n  \"plannedQuantityKg\": 1500,\n  \"plannedStartDate\": \"2025-12-15T00:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel order",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Orders/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batches",
+      "item": [
+        {
+          "name": "Get all batches",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Batches",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get batches with filters",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Batches?status=running&page=1&pageSize=10",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get batch by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Batches/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create batch",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Batches",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchNumber\": \"B-TEST-001\",\n  \"orderId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update batch",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Batches/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"actualQuantityKg\": 998.5,\n  \"endTime\": \"2025-12-01T15:30:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel batch",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/Batches/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "item": [
+        {
+          "name": "Get batch steps",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Production/batch/1/steps",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Start step",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Production/step/start/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "3"
+            }
+          }
+        },
+        {
+          "name": "Complete step",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Production/step/complete",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchStepId\": 1,\n  \"actualValue\": 82.5,\n  \"actualDurationMin\": 32,\n  \"operatorComment\": \"Шаг выполнен успешно\",\n  \"operatorId\": 3\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Laboratory",
+      "item": [
+        {
+          "name": "Get raw material pending",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/raw-material-pending",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get product pending",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/product-pending",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create test",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/create-test",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectType\": \"product\",\n  \"objectId\": 1,\n  \"testType\": \"Контроль качества\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get test by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/test/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Save draft results",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/save-draft/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"parameterName\": \"концентрация\",\n    \"measuredValue\": 98.2,\n    \"standardValue\": \"97\",\n    \"unit\": \"%\",\n    \"comment\": \"Предварительный результат\"\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "Submit test result",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/submit-result",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"testId\": 1,\n  \"decision\": \"approved\",\n  \"decisionReason\": null,\n  \"testedBy\": 4\n}"
+            }
+          }
+        },
+        {
+          "name": "Get protocols",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/protocols?page=1&pageSize=10",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get protocol details",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Laboratory/protocols/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Block batch",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/block-batch/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\"Несоответствие нормативам по концентрации\""
+            }
+          }
+        },
+        {
+          "name": "Approve batch",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Laboratory/approve-batch/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Deviations",
+      "item": [
+        {
+          "name": "Get all deviations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Deviations",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get deviations with filters",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Deviations?status=open&severity=high&page=1&pageSize=10",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get deviation by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Deviations/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create deviation",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Deviations",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchId\": 1,\n  \"stepName\": \"Экструзия\",\n  \"parameterName\": \"Температура\",\n  \"plannedValue\": \"75-85\",\n  \"actualValue\": \"78.2\",\n  \"severity\": \"medium\",\n  \"createdBy\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Resolve deviation",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/Deviations/1/resolve",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolvedBy\": 3,\n  \"resolutionComment\": \"Проблема устранена, настройки скорректированы\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Statuses",
+      "item": [
+        {
+          "name": "Get batch statuses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Statuses/batch-statuses",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get recipe statuses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Statuses/recipe-statuses",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get tech card statuses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Statuses/techcard-statuses",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get lab test statuses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Statuses/lab-test-statuses",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get deviation statuses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Statuses/deviation-statuses",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get deviation severities",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Statuses/deviation-severities",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Get all events",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Events",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get user notifications",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Notifications/3",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get unread notifications",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/Notifications/3?isRead=false",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Send notification",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Notifications/send",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 3,\n  \"title\": \"Новое отклонение\",\n  \"message\": \"В партии B-2401-01 зафиксировано отклонение температуры\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Mark notification as read",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Notifications/1/read",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Mark all as read",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/Notifications/mark-all-read/3",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
