@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="TechnologistModule.Controls.ExtruderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#F8FAFC">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="🔧 Программы экструдера" FontSize="22" FontWeight="Bold" 
+                   Foreground="#1E293B" Margin="0,0,0,15"/>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchBox" Width="250" Height="32" 
+                         Style="{StaticResource ModernTextBox}" 
+                         TextChanged="SearchBox_TextChanged"/>
+                <Button Grid.Column="1" Content="➕ Новая программа" Width="140" Height="32"
+                        Background="#3B82F6" Foreground="White" BorderThickness="0" Cursor="Hand"
+                         Click="NewProgram_Click"/>
+            </Grid>
+
+            <DataGrid x:Name="ProgramsGrid" Grid.Row="1" 
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      RowHeight="45"
+                      FontSize="13"
+                      SelectionChanged="ProgramsGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" FontWeight="SemiBold"/>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="300"/>
+                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreatedAt}" Width="150"/>
+                    <DataGridTemplateColumn Header="Действия" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="✏️" Click="EditProgram_Click" Tag="{Binding}" 
+                                            Width="30" Height="30" Background="Transparent" Foreground="#3B82F6"
+                                            BorderThickness="0" Cursor="Hand" Margin="2"/>
+                                    <Button Content="🗑️" Click="DeleteProgram_Click" Tag="{Binding}" 
+                                            Width="30" Height="30" Background="Transparent" Foreground="#EF4444"
+                                            BorderThickness="0" Cursor="Hand" Margin="2"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>
