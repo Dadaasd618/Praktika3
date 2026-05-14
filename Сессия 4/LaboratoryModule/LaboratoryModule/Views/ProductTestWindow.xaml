@@ -1,0 +1,99 @@
+﻿<Window x:Class="LaboratoryModule.Views.ProductTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Лабораторное испытание (готовая продукция)" Height="663" Width="843"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F7FA">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#3B82F6" CornerRadius="10" Padding="12" Margin="0,0,0,15">
+            <TextBlock x:Name="TitleText" Text="🔬 Лабораторное испытание" FontSize="16" FontWeight="Bold" Foreground="White"/>
+        </Border>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Padding="15" Margin="0,5,0,372" BorderBrush="#E2E8F0" BorderThickness="1" Grid.RowSpan="3">
+            <Grid Margin="0,0,-6,-16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Объект" FontWeight="SemiBold" Foreground="#64748B"/>
+                <TextBlock x:Name="ObjectInfoText" Grid.Row="0" Grid.Column="1" Margin="0,0,10,10" FontWeight="SemiBold"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Тип испытания" FontWeight="SemiBold" Foreground="#64748B"/>
+                <ComboBox x:Name="TestTypeCombo" Grid.Row="0" Grid.Column="2" Margin="100,0,0,9"
+                          Style="{StaticResource ModernComboBox}" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <ComboBoxItem Content="Входной контроль" IsSelected="True"/>
+                    <ComboBoxItem Content="Повторный анализ"/>
+                </ComboBox>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Исполнитель" FontWeight="SemiBold" Foreground="#64748B"/>
+                <ComboBox x:Name="ExecutorCombo" Grid.Row="1" Grid.Column="1" 
+Style="{StaticResource ModernComboBox}" Margin="0,0,0,-20"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="3" Background="White" CornerRadius="10" Padding="15" Margin="10,130,24,41" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="📊 Контролируемые параметры" FontSize="14" FontWeight="Bold" 
+                           Foreground="#1E293B" Margin="0,0,0,10"/>
+
+                <DataGrid x:Name="ParametersGrid" Grid.Row="1" 
+                          AutoGenerateColumns="False"
+                          RowHeight="40"
+                          FontSize="12"
+                          MaxHeight="250">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Параметр" Binding="{Binding ParameterName}" Width="160" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Норма" Binding="{Binding StandardDisplay}" Width="120" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Ед.изм" Binding="{Binding Unit}" Width="70" IsReadOnly="True"/>
+                        <DataGridTemplateColumn Header="Измеренное значение" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding MeasuredValue, UpdateSourceTrigger=PropertyChanged}" 
+                                             Width="100" Height="30" VerticalContentAlignment="Center"
+                                             Style="{StaticResource ModernTextBox}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Результат" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ResultText}" FontWeight="SemiBold"
+                                               Foreground="{Binding ResultColor}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="130"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="Отмена" Width="100" Height="35" Style="{StaticResource SecondaryButton}" Click="Cancel_Click"/>
+            <Button x:Name="SaveDraftButton" Content="💾 Сохранить" Width="110" Height="35" Margin="10,0,0,0"
+            Style="{StaticResource WarningButton}" Click="SaveDraft_Click" FontSize="12"/>
+            <Button x:Name="CompleteButton" Content="✅ Завершить" Width="120" Height="35" Margin="10,0,0,0"
+            Style="{StaticResource SuccessButton}" Click="ApproveTest_Click" FontSize="12"/>
+        </StackPanel>
+    </Grid>
+</Window>

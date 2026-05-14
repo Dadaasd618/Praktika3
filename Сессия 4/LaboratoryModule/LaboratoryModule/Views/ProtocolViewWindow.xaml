@@ -1,0 +1,121 @@
+﻿<Window x:Class="LaboratoryModule.Views.ProtocolViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:LaboratoryModule.Converters"
+        Title="Протокол испытания" Height="568" Width="774"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F7FA">
+
+    <Window.Resources>
+        <converters:BoolToResultConverter x:Key="BoolToResult"/>
+        <converters:ResultToColorConverter x:Key="ResultToColor"/>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#3B82F6" CornerRadius="10" Padding="12" Margin="0,0,0,15">
+            <TextBlock x:Name="TitleText" Text="📄 Протокол испытания" FontSize="16" FontWeight="Bold" Foreground="White"/>
+        </Border>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Padding="15" Margin="0,0,0,15" BorderBrush="#E2E8F0" BorderThickness="1">
+            <StackPanel>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="№ протокола:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <TextBlock x:Name="TestNumberText" Grid.Column="1" Foreground="#1E293B" Margin="0,0,20,0"/>
+                    <TextBlock Grid.Column="2" Text="Дата:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <TextBlock x:Name="DateText" Grid.Column="3" Foreground="#1E293B"/>
+                </Grid>
+
+                <Rectangle Height="1" Fill="#E2E8F0" Margin="0,4"/>
+
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Тип объекта:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <TextBlock x:Name="ObjectTypeText" Grid.Column="1" Foreground="#1E293B" Margin="0,0,20,0"/>
+                    <TextBlock Grid.Column="2" Text="Объект:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <TextBlock x:Name="ObjectNameText" Grid.Column="3" Foreground="#1E293B"/>
+                </Grid>
+
+                <Rectangle Height="1" Fill="#E2E8F0" Margin="0,4"/>
+
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Тип испытания:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <TextBlock x:Name="TestTypeText" Grid.Column="1" Foreground="#1E293B" Margin="0,0,20,0"/>
+                    <TextBlock Grid.Column="2" Text="Исполнитель:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <TextBlock x:Name="ExecutorText" Grid.Column="3" Foreground="#1E293B"/>
+                </Grid>
+
+                <Rectangle Height="1" Fill="#E2E8F0" Margin="0,4"/>
+
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Решение:" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <Border x:Name="DecisionBorder" Grid.Column="1" CornerRadius="8" Padding="8,4" Width="90" HorizontalAlignment="Left">
+                        <TextBlock x:Name="DecisionText" Foreground="White" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Rectangle Height="1" Fill="#E2E8F0" Margin="0,4"/>
+
+                <StackPanel Margin="0,5">
+                    <TextBlock Text="Причина / Комментарий:" FontWeight="SemiBold" Foreground="#1E293B" Margin="0,0,0,5"/>
+                    <TextBox x:Name="ReasonText" Height="50" TextWrapping="Wrap" IsReadOnly="True"
+                             Style="{StaticResource ModernTextBox}" FontSize="12" VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <DataGrid x:Name="ParametersGrid" Grid.Row="2" 
+          Style="{StaticResource ModernDataGrid}"
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          MaxHeight="200"
+          Margin="0,0,0,15">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Параметр" Binding="{Binding ParameterName}" Width="180"/>
+                <DataGridTextColumn Header="Норма" Binding="{Binding StandardDisplay}" Width="150"/>
+                <DataGridTextColumn Header="Измерено" Binding="{Binding MeasuredValue}" Width="100"/>
+                <DataGridTextColumn Header="Ед.изм" Binding="{Binding Unit}" Width="80"/>
+                <DataGridTemplateColumn Header="Результат" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ResultText}" FontWeight="SemiBold"
+                               Foreground="{Binding ResultColor}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Закрыть" Width="100" Height="35" Style="{StaticResource SecondaryButton}" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
