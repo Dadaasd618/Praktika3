@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="OperatorModule.Views.BatchJournalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="White">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка -->
+        <Border Grid.Row="0" Background="#3B82F6" CornerRadius="12" Padding="15,12" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="📜" FontSize="18" Margin="0,0,10,0"/>
+                    <TextBlock Text="Журнал партии" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Партия:" Foreground="#BFDBFE" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="BatchCombo" Width="200" Height="32" 
+                              Style="{StaticResource ModernComboBox}" 
+                              SelectionChanged="BatchCombo_SelectionChanged"
+                              DisplayMemberPath="BatchNumber" SelectedValuePath="Id"/>
+                    <Button Content="🔄" Width="45" Height="42" Margin="10,0,0,0"
+                            Style="{StaticResource SecondaryButton}" Click="Refresh_Click" FontSize="14"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Информация о партии -->
+        <Border Grid.Row="1" Background="#F8FAFC" CornerRadius="12" Padding="15" Margin="0,0,0,15"
+                BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Партия:" FontWeight="SemiBold" Foreground="#64748B" Margin="0,0,10,0"/>
+                <TextBlock x:Name="BatchInfoText" Grid.Column="1" Text="B-2404-01" FontWeight="SemiBold" Foreground="#1E293B"/>
+            </Grid>
+        </Border>
+
+        <!-- Таблица журнала -->
+        <DataGrid Grid.Row="2" x:Name="StepsGrid" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  RowHeight="45"
+                  FontSize="13"
+                  BorderBrush="#E2E8F0"
+                  BorderThickness="1"
+                  Background="White"
+                  AlternatingRowBackground="#F8FAFC">
+
+            <DataGrid.Columns>
+                <!-- № п/п -->
+                <DataGridTextColumn Header="№" Binding="{Binding StepOrder}" Width="50">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Шаг -->
+                <DataGridTextColumn Header="Шаг" Binding="{Binding StepName}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5,0,0,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Статус (с цветом) -->
+                <DataGridTemplateColumn Header="Статус" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="6" Padding="8,4" 
+                                    Background="{Binding StatusBackground}"
+                                    BorderBrush="{Binding StatusBorder}" 
+                                    BorderThickness="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{Binding StatusDisplay}" 
+                                           Foreground="{Binding StatusForeground}"
+                                           FontWeight="SemiBold"
+                                           FontSize="11"
+                                           HorizontalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Фактическое значение -->
+                <DataGridTextColumn Header="Факт. значение" Binding="{Binding ActualValueDisplay}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{Binding ActualValueColor}"/>
+                            <Setter Property="FontWeight" Value="{Binding ActualValueWeight}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Длительность -->
+                <DataGridTextColumn Header="Длительность (мин)" Binding="{Binding DurationDisplay}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Отклонение -->
+                <DataGridTemplateColumn Header="Отклонение" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="6" Padding="6,3" 
+                                    Background="{Binding DeviationBackground}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{Binding DeviationDisplay}" 
+                                           Foreground="{Binding DeviationForeground}"
+                                           FontSize="10"
+                                           HorizontalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Время начала -->
+                <DataGridTextColumn Header="Время начала" Binding="{Binding StartedAtDisplay}" Width="140">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="11"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Время завершения -->
+                <DataGridTextColumn Header="Время завершения" Binding="{Binding CompletedAtDisplay}" Width="140">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="11"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
