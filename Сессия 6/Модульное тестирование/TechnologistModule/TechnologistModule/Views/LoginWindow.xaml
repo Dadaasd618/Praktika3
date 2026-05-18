@@ -1,0 +1,150 @@
+﻿<Window x:Class="TechnologistModule.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechnologistModule.Views"
+        mc:Ignorable="d"
+        
+        Title="АгроКонтроль - Вход" Height="700" Width="550"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F7FA">
+
+    <Window.Resources>
+        <DropShadowEffect x:Key="DropShadow" ShadowDepth="2" BlurRadius="10" Opacity="0.15"/>
+    </Window.Resources>
+
+    <Grid>
+        <Border Width="500" Height="660" 
+                Background="White" 
+                CornerRadius="16" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                Effect="{StaticResource DropShadow}">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="25">
+                    <!-- Логотип -->
+                    <TextBlock Text="🌿 АгроКонтроль" FontSize="24" FontWeight="Bold" 
+                               Foreground="#1E293B" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBlock Text="Модуль технолога" FontSize="14" 
+                               Foreground="#64748B" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                    <!-- Вкладки -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+                            <RadioButton x:Name="LoginTab" Content="Вход" IsChecked="True" 
+                                         Foreground="#1E293B" FontSize="16" FontWeight="SemiBold"
+                                         Margin="0,0,30,0" GroupName="AuthTab"/>
+                            <RadioButton x:Name="RegisterTab" Content="Регистрация" 
+                                         Foreground="#1E293B" FontSize="16" FontWeight="SemiBold"
+                                         GroupName="AuthTab"/>
+                        </StackPanel>
+
+                        <!-- Панель Входа -->
+                        <StackPanel x:Name="LoginPanel" Grid.Row="1" Visibility="Visible">
+                            <TextBlock Text="Логин" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <TextBox x:Name="LoginUsernameBox" Height="40" 
+                                     Style="{StaticResource ModernTextBox}" 
+                                     Margin="0,0,0,15" FontSize="14"/>
+
+                            <TextBlock Text="Пароль" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <PasswordBox x:Name="LoginPasswordBox" Height="40" 
+                                         Style="{StaticResource ModernPasswordBox}" 
+                                         Margin="0,0,0,15" FontSize="14"/>
+
+                            <Button x:Name="LoginButton" Content="ВОЙТИ" Height="44" 
+                                    Style="{StaticResource PrimaryButton}" 
+                                    Click="LoginButton_Click" Margin="0,10,0,0"/>
+                        </StackPanel>
+
+                        <!-- Панель Регистрации -->
+                        <StackPanel x:Name="RegisterPanel" Grid.Row="1" Visibility="Collapsed">
+                            <TextBlock Text="Логин" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <TextBox x:Name="RegUsernameBox" Height="40" 
+                                     Style="{StaticResource ModernTextBox}" 
+                                     Margin="0,0,0,12" FontSize="14"/>
+
+                            <TextBlock Text="Пароль" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <PasswordBox x:Name="RegPasswordBox" Height="40" 
+                                         Style="{StaticResource ModernPasswordBox}" 
+                                         Margin="0,0,0,12" FontSize="14"/>
+
+                            <TextBlock Text="ФИО" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <TextBox x:Name="RegFullNameBox" Height="40" 
+                                     Style="{StaticResource ModernTextBox}" 
+                                     Margin="0,0,0,12" FontSize="14"/>
+
+                            <TextBlock Text="Роль" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="RegRoleBox" Height="40" 
+                                      Style="{StaticResource ModernComboBox}" 
+                                      Margin="0,0,0,12">
+                                <ComboBoxItem Content="technologist" IsSelected="True"/>
+                                <ComboBoxItem Content="operator"/>
+                                <ComboBoxItem Content="laboratory"/>
+                            </ComboBox>
+
+                            <TextBlock Text="Подразделение" FontSize="14" FontWeight="SemiBold" 
+                                       Foreground="#1E293B" Margin="0,0,0,5"/>
+                            <TextBox x:Name="RegDepartmentBox" Height="40" 
+                                     Style="{StaticResource ModernTextBox}" 
+                                     Margin="0,0,0,12" FontSize="14"/>
+
+                            <Button x:Name="RegisterButton" Content="ЗАРЕГИСТРИРОВАТЬСЯ" Height="44" 
+                                    Style="{StaticResource PrimaryButton}" 
+                                    Click="RegisterButton_Click" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- CAPTCHA -->
+                    <Border Background="#F8FAFC" CornerRadius="8" Padding="12" Margin="0,15,0,15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Image x:Name="CaptchaImage" Grid.Row="0" Grid.Column="0" 
+                                   Height="75" Width="280" Stretch="Fill" Margin="0,0,10,0"
+                                   Cursor="Hand" MouseDown="RefreshCaptcha_Click"/>
+
+                            <Button Grid.Row="0" Grid.Column="1" Content="🔄" Width="45" Height="45" 
+                                    Style="{StaticResource SecondaryButton}" 
+                                    Click="RefreshCaptchaButton_Click"/>
+
+                            <TextBox x:Name="CaptchaCodeBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                     Height="36" Margin="0,10,0,0" 
+                                     Style="{StaticResource ModernTextBox}"
+                                     ToolTip="Введите код с картинки"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Ошибка -->
+                    <TextBlock x:Name="ErrorText" Text="" Foreground="#EF4444" 
+                               FontSize="12" HorizontalAlignment="Center" 
+                               Visibility="Collapsed" TextWrapping="Wrap"/>
+
+                    <TextBlock Text="Версия 1.0.0" FontSize="11" 
+                               Foreground="#94A3B8" HorizontalAlignment="Center" 
+                               Margin="0,15,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>

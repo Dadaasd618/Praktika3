@@ -1,0 +1,65 @@
+﻿<Window x:Class="TechnologistModule.Views.ProductCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        Title="Карточка продукта" Height="480" Width="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F5F7FA">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleText" Text="📦 Новый продукт" FontSize="20" FontWeight="Bold" 
+                   Foreground="#1E293B" Margin="0,0,0,20"/>
+
+        <Grid Grid.Row="1" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Код" VerticalAlignment="Center" FontWeight="SemiBold"/>
+            <TextBox x:Name="CodeBox" Grid.Column="1" Height="35"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Наименование" VerticalAlignment="Center" FontWeight="SemiBold"/>
+            <TextBox x:Name="NameBox" Grid.Column="1" Height="35"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Тип" VerticalAlignment="Center" FontWeight="SemiBold"/>
+            <TextBox x:Name="TypeBox" Grid.Column="1" Height="35"/>
+        </Grid>
+
+        <Grid Grid.Row="4" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Форма выпуска" VerticalAlignment="Center" FontWeight="SemiBold"/>
+            <TextBox x:Name="FormBox" Grid.Column="1" Height="35"/>
+        </Grid>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Отмена" Width="100" Height="35" Click="Cancel_Click"/>
+            <Button x:Name="SaveButton" Content="Сохранить" Width="100" Height="35" Margin="10,0,0,0" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

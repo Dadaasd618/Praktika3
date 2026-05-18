@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="TechnologistModule.Controls.TechCardsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#F8FAFC">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="⚙️ Технологические карты" 
+                       FontSize="22" FontWeight="Bold" 
+                       Foreground="#1E293B"/>
+            <Button Grid.Column="1" Content="➕ Новая техкарта" Width="150" Height="35" 
+                    Background="#3B82F6" Foreground="White"
+                    BorderThickness="0" Cursor="Hand"
+                    
+                    Click="NewTechCard_Click"/>
+        </Grid>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="10" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchBox" Height="35" TextChanged="SearchBox_TextChanged"/>
+                <ComboBox x:Name="StatusFilter" Grid.Column="1" Width="130" Height="35" Margin="10,0,0,0"
+                          SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="Все статусы" IsSelected="True"/>
+                    <ComboBoxItem Content="active"/>
+                    <ComboBoxItem Content="draft"/>
+                    <ComboBoxItem Content="archived"/>
+                </ComboBox>
+            </Grid>
+        </Border>
+
+        <DataGrid x:Name="TechCardsGrid" Grid.Row="2" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionChanged="TechCardsGrid_SelectionChanged"
+                  RowHeight="45"
+                  FontSize="13"
+                  Background="White"
+                  AlternatingRowBackground="#F8FAFC">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Продукт" Binding="{Binding ProductName}" Width="200" FontWeight="SemiBold"/>
+                <DataGridTextColumn Header="Версия" Binding="{Binding Version}" Width="100"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                <DataGridCheckBoxColumn Header="Действующая" Binding="{Binding IsActive}" Width="100"/>
+                <DataGridTextColumn Header="Дата создания" Binding="{Binding CreatedAt}" Width="150"/>
+                <DataGridTemplateColumn Header="Действия" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="✏️" Click="EditTechCard_Click" Tag="{Binding}" 
+                                        Width="32" Height="32" Background="Transparent" Foreground="#3B82F6"
+                                        BorderThickness="0" Cursor="Hand" Margin="2"/>
+                                <Button Content="✅" Click="ApproveTechCard_Click" Tag="{Binding}" 
+                                        Width="32" Height="32" Background="Transparent" Foreground="#10B981"
+                                        BorderThickness="0" Cursor="Hand" Margin="2"/>
+                                <Button Content="🗑️" Click="ArchiveTechCard_Click" Tag="{Binding}" 
+                                        Width="32" Height="32" Background="Transparent" Foreground="#EF4444"
+                                        BorderThickness="0" Cursor="Hand" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

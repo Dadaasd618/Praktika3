@@ -1,0 +1,16 @@
+﻿using System.Windows;
+
+namespace TechnologistModule
+{
+    public partial class App : Application
+    {
+        public static string ApiBaseUrl = "http://localhost:5134";
+        public static string AuthToken = "";
+        public static Models.User CurrentUser = null;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+        }
+    }
+}

@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="TechnologistModule.Controls.OrdersControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#F8FAFC">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="📄 Производственные заказы" 
+                       FontSize="22" FontWeight="Bold" 
+                       Foreground="#1E293B"/>
+            <Button Grid.Column="1" Content="➕ Новый заказ" Width="140" Height="35" 
+                    Background="#3B82F6" Foreground="White"
+                    BorderThickness="0" Cursor="Hand"
+                    
+                    Click="NewOrder_Click"/>
+        </Grid>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="10" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchBox" Height="35" TextChanged="SearchBox_TextChanged"/>
+                <ComboBox x:Name="StatusFilter" Grid.Column="1" Width="130" Height="35" Margin="10,0,0,0"
+                          SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="Все статусы" IsSelected="True"/>
+                    <ComboBoxItem Content="planned"/>
+                    <ComboBoxItem Content="in_progress"/>
+                    <ComboBoxItem Content="completed"/>
+                    <ComboBoxItem Content="cancelled"/>
+                </ComboBox>
+            </Grid>
+        </Border>
+
+        <DataGrid x:Name="OrdersGrid" Grid.Row="2" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionChanged="OrdersGrid_SelectionChanged"
+                  RowHeight="45"
+                  FontSize="13"
+                  Background="White"
+                  AlternatingRowBackground="#F8FAFC">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderNumber}" Width="150" FontWeight="SemiBold"/>
+                <DataGridTextColumn Header="Продукт" Binding="{Binding ProductName}" Width="200"/>
+                <DataGridTextColumn Header="Рецептура" Binding="{Binding RecipeVersion}" Width="100"/>
+                <DataGridTextColumn Header="Плановое кол-во (кг)" Binding="{Binding PlannedQuantityKg}" Width="140"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+                <DataGridTextColumn Header="Дата запуска" Binding="{Binding PlannedStartDate}" Width="120"/>
+                <DataGridTemplateColumn Header="Действия" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="✏️" Click="EditOrder_Click" Tag="{Binding}" 
+                                        Width="32" Height="32" Background="Transparent" Foreground="#3B82F6"
+                                        BorderThickness="0" Cursor="Hand" Margin="2"/>
+                                <Button Content="🗑️" Click="CancelOrder_Click" Tag="{Binding}" 
+                                        Width="32" Height="32" Background="Transparent" Foreground="#EF4444"
+                                        BorderThickness="0" Cursor="Hand" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
